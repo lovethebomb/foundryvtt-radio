@@ -1,3 +1,6 @@
-.foundryvtt-radio {
-    color: red;
+#foundryvtt-radio {
+    flex: 0 0 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
