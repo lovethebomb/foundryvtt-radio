@@ -1,0 +1,26 @@
+{
+    "name": "foundryvtt-radio",
+    "title": "foundryvtt-radio",
+    "description": "",
+    "systems": [],
+    "version": "0.1.2",
+    "author": "lovethebomb",
+    "type": "module",
+    "scripts": ["foundryvtt-radio.js"],
+    "esmodules": [
+      "foundryvtt-radio.js"
+    ],
+    "styles": [
+      "foundryvtt-radio.css"
+    ],
+    "packs": [],
+    "languages": [],
+    "minimumCoreVersion": "0.7.9",
+      "compatibleCoreVersion": "0.8.2",
+    "url": "https://github.com/lovethebomb/foundryvtt-radio",
+    "manifest": "https://github.com/lovethebomb/foundryvtt-radio/",
+    "license": "",
+    "readme": "https://github.com/lovethebomb/foundryvtt-radio",
+    "bugs": "https://github.com/lovethebomb/foundryvtt-radio",
+    "changelog": "https://github.com/lovethebomb/foundryvtt-radio"
+  }
