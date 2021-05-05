@@ -18,16 +18,10 @@ jobs:
       id: get-version
       run: echo "::set-output name=version::$(node ./.github/workflows/get-version.js)"
 
-    # Get the name from 'module.json'
-    - name: Get Includes
-      shell: bash
-      id: get-includes
-      run: echo "::set-output name=files::$(node ./.github/workflows/get-includes.js)"
-
     # create a zip file with all files required by the module to add to the release
     - name: Zip Files
       working-directory: ./dist #SORRY BUT YOU HAVE TO USE DIST JUST LIKE GET OVER IT OR FIGURE OUT A BETTER WAY
-      run: zip -r ../module.zip ${{steps.get-includes.outputs.files}}
+      run: zip -r ../module.zip module.json foundryvtt-radio.js foundryvtt-radio.css
 
     #Useful only for the template so we can leave the manifest and download urls empty
     - name: Substitute Manifest and Download Links For Versioned Ones
