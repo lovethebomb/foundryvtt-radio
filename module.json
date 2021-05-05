@@ -18,7 +18,7 @@
     "minimumCoreVersion": "0.7.9",
       "compatibleCoreVersion": "0.8.2",
     "url": "https://github.com/lovethebomb/foundryvtt-radio",
-    "manifest": "https://github.com/lovethebomb/foundryvtt-radio/",
+    "manifest": "https://raw.githubusercontent.com/lovethebomb/foundryvtt-radio/master/module.json",
     "license": "",
     "readme": "https://github.com/lovethebomb/foundryvtt-radio",
     "bugs": "https://github.com/lovethebomb/foundryvtt-radio",
