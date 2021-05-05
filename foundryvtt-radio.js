@@ -23,10 +23,10 @@ Hooks.once('init', async function() {
 	// Assign custom classes and constants here
 	
 	// Register custom module settings
-	registerSettings();
+	// registerSettings();
 	
 	// Preload Handlebars templates
-	await preloadTemplates();
+	// await preloadTemplates();
 
 	// Register custom sheets (if any)
 });
@@ -35,6 +35,7 @@ Hooks.once('init', async function() {
 /* Setup module							*/
 /* ------------------------------------ */
 Hooks.once('setup', function() {
+	console.log('foundryvtt-radio | setup foundryvtt-radio');
 	// Do anything after initialization but before
 	// ready
 });
@@ -43,6 +44,7 @@ Hooks.once('setup', function() {
 /* When ready							*/
 /* ------------------------------------ */
 Hooks.once('ready', function() {
+	console.log('foundryvtt-radio | ready foundryvtt-radio');
 	// Do anything once the module is ready
 });
 
