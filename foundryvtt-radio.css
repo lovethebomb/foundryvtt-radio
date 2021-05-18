@@ -4,3 +4,44 @@
     margin: 0;
     padding: 0;
 }
+
+.foundryvtt-radio__controls {
+    flex-wrap: nowrap;
+    max-width: 100px;
+    width: 100%;
+    flex: 0 1 auto;
+    align-items: center;
+    text-align: center;
+    color: #CCC;
+    font-size: 11px;
+}
+
+.foundryvtt-radio__audio {
+    display: none;
+}
+
+.foundryvtt-radio__controls__status {
+    animation: rotation 5s linear infinite;
+}
+
+.foundryvtt-radio__controls__status,
+.foundryvtt-radio__controls__play,
+.foundryvtt-radio__controls__pause {
+    display: block;
+}
+
+/* Radio States */
+#foundryvtt-radio[data-radio-state="connecting"] .foundryvtt-radio__controls__play,
+#foundryvtt-radio[data-radio-state="connecting"] .foundryvtt-radio__controls__pause {
+    display: none;
+}
+
+#foundryvtt-radio[data-radio-state="playing"] .foundryvtt-radio__controls__status,
+#foundryvtt-radio[data-radio-state="playing"] .foundryvtt-radio__controls__play {
+    display: none;
+}
+
+#foundryvtt-radio[data-radio-state="paused"] .foundryvtt-radio__controls__status,
+#foundryvtt-radio[data-radio-state="paused"] .foundryvtt-radio__controls__pause {
+    display: none;
+}

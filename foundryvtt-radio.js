@@ -1,24 +1,10 @@
-/**
- * This is your TypeScript entry file for Foundry VTT.
- * Register custom settings, sheets, and constants using the Foundry API.
- * Change this heading to be more descriptive to your module, or remove it.
- * Author: [your name]
- * Content License: [copyright and-or license] If using an existing system
- * 					you may want to put a (link to a) license or copyright
- * 					notice here (e.g. the OGL).
- * Software License: [your license] Put your desired license here, which
- * 					 determines how others may use and modify your module
- */
+const RADIO_STATE_CONNECTING = "connecting"
+const RADIO_STATE_PAUSED = "paused"
+const RADIO_STATE_PLAYING = "playing"
 
-/* ------------------------------------ */
-/* Initialize module					*/
-/* ------------------------------------ */
-Hooks.once('init', async function () {
+Hooks.once("init", async function () {
   console.log('foundryvtt-radio | Initializing foundryvtt-radio');
 
-  // Assign custom classes and constants here
-
-  // Register custom module settings
   game.settings.register("foundryvtt-radio", "audioSrc", {
 		name: "Audio Source",
     hint: "Source of the web radio (ex: https://radio.lucas.computer:27060/live)",
@@ -34,7 +20,7 @@ Hooks.once('init', async function () {
     scope: "client", 
 		type: Number,
 		config: true,
-    range: {             // If range is specified, the resulting setting will be a range slider
+    range: {
       min: 0,
       max: 1,
       step: 0.1
@@ -43,38 +29,61 @@ Hooks.once('init', async function () {
 	});
 
   // Preload Handlebars templates
-
   // Register custom sheets (if any)
 });
 
-/* ------------------------------------ */
-/* Setup module							*/
-/* ------------------------------------ */
-Hooks.once('setup', function () {
-  console.log('foundryvtt-radio | setup foundryvtt-radio');
-  // Do anything after initialization but before
-  // ready
-});
-
-/* ------------------------------------ */
-/* When ready							*/
-/* ------------------------------------ */
-Hooks.once('ready', function () {
-  console.log('foundryvtt-radio | ready foundryvtt-radio');
-  // Do anything once the module is ready
-});
-
-// Add any additional hooks if necessary
 Hooks.on("renderPlaylistDirectory", (app, html, data) => {
-  const radioWrapper = $(`<li class="global-volume directory-item playlist flexrow">
+  console.log('foundryvtt-radio | renderPlaylistDirectory');
+
+  // Retrieve settings
+  const audioSrc = game.settings.get("foundryvtt-radio", "audioSrc");
+  const audioVolume = game.settings.get("foundryvtt-radio", "audioVolume");
+
+  // Prepare Elements
+  // radioWrapper
+  // - radioPlayer
+  // - - radioStatusElement
+  // - - radioPlayElement
+  // - - radioVolumeElement
+  // - - audioElement
+  const radioWrapper = $(`<li id="foundryvtt-radio" class="global-volume directory-item playlist flexrow">
     <header class="playlist-header flexrow"><h4>Radio player</h4></header>
   </li>`)
 
-  const audioSrc = game.settings.get("foundryvtt-radio", "audioSrc");
-  const audioVolume = game.settings.get("foundryvtt-radio", "audioVolume");
-  const audioElement = $(`<audio autoplay="" controls="" id="foundryvtt-radio" preload="metadata" src="${audioSrc}" title="${audioSrc}"><p>Your browser does not support the <code>audio</code> element.</p></audio>`)
+  const radioPlayer = $(`<div class="flexrow foundryvtt-radio__player"></div>`)
+  const radioControlsElement = $(`<div class="flexrow foundryvtt-radio__controls"></div>`)
+  const radioStatusElement = $(`<a class="sound-control inactive foundryvtt-radio__controls__status" title="Radio Status"><i class="fas fa-sync"></i></a>`)
+  const radioPlayElement = $(`<a class="sound-control foundryvtt-radio__controls__play" title="Radio Play"><i class="fas fa-play"></i></a>`)
+  const radioPauseElement = $(`<a class="sound-control foundryvtt-radio__controls__pause" title="Radio Pause"><i class="fas fa-pause"></i></a>`)
+
+  const radioVolumeElement = $(`<input class="global-volume-slider" name="radioVolume" type="range" min="0" max="1" step="0.05" value="${audioVolume}">`)
+  const audioElement = $(`<audio autoplay="" controls="" class="foundryvtt-radio__audio" preload="metadata" src="${audioSrc}" title="${audioSrc}"><p>Your browser does not support the <code>audio</code> element.</p></audio>`)
+
+  // Add event listeners
+  audioElement.on("canplay", () => setRadioState(radioWrapper, RADIO_STATE_PLAYING));
+  audioElement.on("play", () => setRadioState(radioWrapper, RADIO_STATE_PLAYING));
+  audioElement.on("pause", () => setRadioState(radioWrapper, RADIO_STATE_PAUSED));
+
+  radioPlayElement.on("click", () => audioElement[0].play());
+  radioPauseElement.on("click", () => audioElement[0].pause());
+  radioVolumeElement.on("change", (e) => audioElement[0].volume = e.target.value);
+
+  // Apply settings
+  setRadioState(radioWrapper, RADIO_STATE_CONNECTING)
   audioElement[0].volume = audioVolume
 
-  radioWrapper.append(audioElement)
+  // Append to DOM
+  radioControlsElement.append(radioStatusElement)
+  radioControlsElement.append(radioPlayElement)
+  radioControlsElement.append(radioPauseElement)
+  radioPlayer.append(radioControlsElement)
+  radioPlayer.append(radioVolumeElement)
+  radioPlayer.append(audioElement)
+
+  radioWrapper.append(radioPlayer)
   html.find(".directory-list").append(radioWrapper);
 })
+
+function setRadioState(element, state) {
+  element.attr("data-radio-state", state)
+}

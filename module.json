@@ -2,7 +2,7 @@
     "name": "foundryvtt-radio",
     "title": "Radio Player",
     "description": "A sample description",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "author": "lovethebomb",
     "scripts": [
         "foundryvtt-radio.js"
