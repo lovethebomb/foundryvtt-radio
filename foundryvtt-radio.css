@@ -28,6 +28,10 @@
 .foundryvtt-radio__controls__play,
 .foundryvtt-radio__controls__pause {
     display: block;
+    flex: 0 0 16px;
+    text-align: center;
+    color: #CCC;
+    font-size: 11px
 }
 
 /* Radio States */
